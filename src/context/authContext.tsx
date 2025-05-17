@@ -41,6 +41,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         };
         authApiRequest.getUserContext().then(res => {
             setUser(res.data)
+            console.log("USER CONTEXT", res.data)
         }).catch(() => {
             removeClientToken();
             setUser(undefined)

@@ -1,6 +1,6 @@
 export enum Role {
-    Admin = 0,
-    Staff = 1
+    Admin = 1,
+    Employee = 2
 }
 
 export type RegisterRequest = {
@@ -32,12 +32,12 @@ export type User = {
     fullname: string;
     username: string;
     email: string;
-    role: Role;
+    roleId: Role;
 };
 
 export type UserRequest = RegisterRequest & {
     id?: string,
-    role: Role;
+    roleId: Role;
     isCheckPassword?: boolean
 };
 
@@ -46,7 +46,7 @@ export const defaultUserRequest: UserRequest = {
     fullname: '',
     username: '',
     email: '',
-    role: Role.Staff,
+    roleId: Role.Employee,
     password: '',
     passwordRetype: '',
     isCheckPassword: true
@@ -57,7 +57,7 @@ export const defaultUser: User = {
     fullname: '',
     username: '',
     email: '',
-    role: Role.Staff,
+    roleId: Role.Employee,
 };
 
 export const testAdminUser: User = {
@@ -65,14 +65,14 @@ export const testAdminUser: User = {
     fullname: 'Test User',
     username: 'testuser',
     email: 'test@gmail.com',
-    role: Role.Admin,
+    roleId: Role.Admin,
 };
 export const testStaffUser: User = {
     id: '0',
     fullname: 'Test User',
     username: 'testuser',
     email: 'test@gmail.com',
-    role: Role.Staff,
+    roleId: Role.Employee,
 };
 
 export type LoginResponse = {

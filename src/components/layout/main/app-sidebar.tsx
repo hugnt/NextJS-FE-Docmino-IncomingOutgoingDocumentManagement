@@ -23,12 +23,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        {user && SidebarData.filter((section) => section.roles?.some((role) => role === user.role)).map((section, index) => (
+        {user && SidebarData.filter((section) => section.roles?.some((role) => role === user.roleId)).map((section, index) => (
           <SidebarGroup key={index}>
             <SidebarGroupLabel>{section.group}</SidebarGroupLabel>
             <SidebarMenu>
               {section.items
-                ?.filter((item) => item.roles?.includes(user.role)).map((item) =>
+                ?.filter((item) => item.roles?.includes(user.roleId)).map((item) =>
                   item.items ? (
                     <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
                       <SidebarMenuItem>
@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <CollapsibleContent>
                           <SidebarMenuSub>
                             {item.items
-                              ?.filter((subItem) => subItem.roles?.includes(user.role))
+                              ?.filter((subItem) => subItem.roles?.includes(user.roleId))
                               .map((subItem) => (
                                 <SidebarMenuSubItem key={subItem.title}>
                                   <SidebarMenuSubButton asChild>
