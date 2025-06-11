@@ -32,8 +32,8 @@ axiosInstance.interceptors.response.use(
     (response) => response.data,
     async (error: AxiosError<Result<any>>) => {
         const originalRequest = error.config as CustomAxiosRequestConfig;
-        const requestKey = `${originalRequest.method}:${originalRequest.url}`;
-        originalRequest._retryCount = originalRequest._retryCount || 0;
+        // const requestKey = `${originalRequest.method}:${originalRequest.url}`;
+        // originalRequest._retryCount = originalRequest._retryCount || 0;
         if (!isLoginPage() && error.response && error.response.status === 401) {
             const refreshToken = getRefreshToken();
             if (!refreshToken) {
@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
                         const newAccessToken = res.data!.accessToken;
                         const newRefreshToken = res.data!.refreshToken;
                         setClientToken({ accessToken: newAccessToken, refreshToken: newRefreshToken });
-                        console.log("RETRY Original SUCCESS:", requestKey)
+                        console.log("RETRY Original SUCCESS")
                         return newAccessToken;
                     })
                     .catch((err) => {

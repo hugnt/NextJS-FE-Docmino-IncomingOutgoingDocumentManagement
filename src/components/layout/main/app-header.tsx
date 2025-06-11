@@ -24,7 +24,7 @@ export default function AppHeader() {
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4 " />
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="gap-1 sm:gap-1">
             {breadcrumbs.map((title, index) => (
               <Fragment key={title}>
                 <BreadcrumbItem>

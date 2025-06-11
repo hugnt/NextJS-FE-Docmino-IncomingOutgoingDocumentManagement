@@ -20,7 +20,7 @@ export const PATH = {
     SystemCategoryDocumentField: '/system-category/document/fields',
     SystemCategoryDocumentOrganization: '/system-category/document/organization',
 
-    SystemCategoryStorageContainer: '/system-category/storage/container',
+    SystemCategoryStorageDossier: '/system-category/storage/dossier',
     SystemCategoryStorageInventory: '/system-category/storage/inventory',
     SystemCategoryStorageSheft: '/system-category/storage/sheft',
     SystemCategoryStorageBox: '/system-category/storage/box',
@@ -29,7 +29,15 @@ export const PATH = {
     SystemCategoryPosition: '/system-category/position',
     SystemCategoryGroup: '/system-category/group',
 
-    SystemCategorySettingConfigUser: 'settings/user',
-    SystemCategorySettingConfigUserRight: 'settings/user-rights',
-    SystemCategorySettingConfigConfirmProcess: 'settings/confirm-process',
+    SystemCategorySettingConfigUser: '/settings/users',
+    SystemCategorySettingConfigUserRight: '/settings/user-rights',
+    SystemCategorySettingConfigConfirmProcess: '/settings/confirm-process',
 };
+
+export const PARAM = {
+    SHEFT_ID: 'shelf_id',
+    BOX_ID: 'box_id',
+    INVENROTY_ID: 'inventory_id',
+    DOCUMENT_ID: 'document_id',
+    DOCUMENT_TYPE: 'document_type',
+}

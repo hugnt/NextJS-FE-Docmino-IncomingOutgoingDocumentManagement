@@ -1,30 +1,29 @@
 import { PATH } from "@/constants/paths";
 import { SidebarDataType } from "@/types/sidebar";
-import { Role } from "@/types/User";
+import { AllRoles, Role } from "@/types/User";
 import {
-  LayoutDashboard,
   BarChart2,
-  FileSignature,
-  FileOutput,
-  FileInput,
-  FolderArchive,
-  CheckSquare,
-  FileText,
   Building,
-  UserCog,
-} from "lucide-react"
+  FileInput,
+  FileOutput,
+  FileSignature,
+  FileText,
+  FolderArchive,
+  LayoutDashboard,
+  UserCog
+} from "lucide-react";
 
 
 export const SidebarData: SidebarDataType = [
   {
     group: "Thống kê & báo cáo",
-    roles: [Role.Admin, Role.Staff],
+    roles: [Role.Admin, Role.ClericalAssistant],
     items: [
       {
         title: "Dashboard",
         url: PATH.Dashboard,
         icon: LayoutDashboard,
-        roles: [Role.Admin, Role.Staff],
+        roles: [Role.Admin, Role.ClericalAssistant],
       },
       {
         title: "Reports",
@@ -36,24 +35,24 @@ export const SidebarData: SidebarDataType = [
   },
   {
     group: "Quản lý văn bản đi - đến",
-    roles: [Role.Admin, Role.Staff],
+    roles: AllRoles,
     items: [
       {
         title: "Ký duyệt",
         url: PATH.Dashboard,
         icon: FileSignature,
-        roles: [Role.Admin, Role.Staff],
+        roles: [Role.Approver],
         isActive: true,
         items: [
           {
             title: "Ký duyệt văn bản",
             url: PATH.DocumentSign,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Approver],
           },
           {
             title: "Nhật ký duyệt",
             url: PATH.DocumentHistory,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Approver],
           },
         ],
       },
@@ -61,18 +60,18 @@ export const SidebarData: SidebarDataType = [
         title: "Văn bản ngoài tổ chức",
         url: PATH.Dashboard,
         icon: FileOutput,
-        roles: [Role.Admin, Role.Staff],
+        roles: [Role.Admin, Role.ClericalAssistant],
         isActive: true,
         items: [
           {
             title: "Văn bản đến",
             url: PATH.DocumentExternalIncoming,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Văn bản đi",
             url: PATH.DocumentExternalOutgoing,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
         ],
       },
@@ -80,18 +79,18 @@ export const SidebarData: SidebarDataType = [
         title: "Văn bản nội bộ",
         url: PATH.Dashboard,
         icon: FileInput,
-        roles: [Role.Admin, Role.Staff],
+        roles: [Role.Admin, Role.ClericalAssistant],
         isActive: true,
         items: [
           {
             title: "Nội bộ đến",
             url: PATH.DocumentInternalIncoming,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Nội bộ đi",
             url: PATH.DocumentInternalOutgoing,
-            roles: [Role.Admin, Role.Staff],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
         ],
       },
@@ -100,38 +99,38 @@ export const SidebarData: SidebarDataType = [
   {
     group: "Hệ thống - Quản lý các danh mục",
     isActive: true,
-    roles: [Role.Admin],
+    roles: [Role.Admin, Role.ClericalAssistant],
     items: [
       {
         title: "Danh mục hồ sơ - vb",
         url: PATH.Dashboard,
         icon: FileText,
-        roles: [Role.Admin],
+        roles: [Role.Admin, Role.ClericalAssistant],
         items: [
           {
             title: "Hạn bảo quản",
             url: PATH.SystemCategoryDocumentPeriod,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Sổ đăng ký văn bản",
             url: PATH.SystemCategoryDocumentRegister,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Loại văn bản",
             url: PATH.SystemCategoryDocumentCategory,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Lĩnh vực",
             url: PATH.SystemCategoryDocumentField,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Cơ quan ban hành",
             url: PATH.SystemCategoryDocumentOrganization,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
         ],
       },
@@ -139,27 +138,27 @@ export const SidebarData: SidebarDataType = [
         title: "Danh mục nơi lưu trữ",
         url: PATH.Dashboard,
         icon: FolderArchive,
-        roles: [Role.Admin],
+        roles: [Role.Admin, Role.ClericalAssistant],
         items: [
           {
             title: "Danh mục hồ sơ",
-            url: PATH.SystemCategoryStorageContainer,
-            roles: [Role.Admin],
+            url: PATH.SystemCategoryStorageDossier,
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Danh mục kho lưu trữ",
             url: PATH.SystemCategoryStorageInventory,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Danh mục kệ lưu trữ",
             url: PATH.SystemCategoryStorageSheft,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Danh mục hộp lưu trữ",
             url: PATH.SystemCategoryStorageBox,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
         ],
       },
@@ -167,29 +166,29 @@ export const SidebarData: SidebarDataType = [
         title: "Phòng ban - chức vụ",
         url: PATH.Dashboard,
         icon: Building,
-        roles: [Role.Admin],
+        roles: [Role.Admin, Role.ClericalAssistant],
         items: [
           {
             title: "Danh mục phòng ban",
             url: PATH.SystemCategoryDepartment,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Danh mục chức vụ",
             url: PATH.SystemCategoryPosition,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
           {
             title: "Danh mục nhóm người dùng",
             url: PATH.SystemCategoryGroup,
-            roles: [Role.Admin],
+            roles: [Role.Admin, Role.ClericalAssistant],
           },
         ],
       },
     ],
   },
   {
-    group: "Cấu hình & thiết lập",
+    group: "Tài khoản & phân quyền",
     isActive: true,
     roles: [Role.Admin],
     items: [
@@ -207,19 +206,6 @@ export const SidebarData: SidebarDataType = [
           {
             title: "Phân quyền thao tác",
             url: PATH.SystemCategorySettingConfigUserRight,
-            roles: [Role.Admin],
-          },
-        ],
-      },
-      {
-        title: "Xét duyệt",
-        url: PATH.Dashboard,
-        icon: CheckSquare,
-        roles: [Role.Admin],
-        items: [
-          {
-            title: "Quy trình duyệt",
-            url: PATH.SystemCategorySettingConfigConfirmProcess,
             roles: [Role.Admin],
           },
         ],

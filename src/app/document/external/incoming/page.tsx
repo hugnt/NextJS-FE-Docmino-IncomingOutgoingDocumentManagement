@@ -1,55 +1,65 @@
 "use client"
 
-import documentCategoryRequest from "@/api/documentCategoryRequest";
 import DataTable from "@/components/data-table/DataTable";
 import DataTableColumnHeader from "@/components/data-table/DataTableColumnHeader";
 import DataTablePagination from "@/components/data-table/DataTablePagination";
 import { ConfirmDialog } from "@/components/dialog/ConfirmDialog";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
-import { handleSuccessApi } from "@/lib/utils";
-import { defaultDocumentCategory, DocumentCategory } from "@/types/DocumentCategory";
-import { DataFilter } from "@/types/filter";
-import { ConfirmDialogState, confirmDialogStateDefaultInt, FormMode, FormSetting, formSettingDefault } from "@/types/form";
-import { ColumnDef, Row } from "@tanstack/react-table";
-import { Pencil, Plus, Trash } from "lucide-react";
+import { cn, dateToString, toastClientSuccess } from "@/lib/utils";
+import { ConfirmDialogState, confirmDialogStateDefault } from "@/types/form";
+import { ColumnDef } from "@tanstack/react-table";
+import { Eye, FileSpreadsheet, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ColumnsData } from "./components/ColumnsData";
-import FormDetails from "./components/FormDetails";
+import { ExternalDocument, ExternalDocumentFilter } from "@/types/ExternalDocument";
+import externalDocumentRequest from "@/api/externalDocumentRequest";
+import SearchInput from "@/components/input/SearchInput";
+import FilterMenu from "./components/FilterMenu";
+import { DocType } from "@/types/Document";
+import { DateRangePicker } from "@/components/input/DateRangePicker";
+import { BUTTON_NAME } from "@/constants/buttons";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import Link from "next/link";
+import { PATH } from "@/constants/paths";
+import { useAuthContext } from "@/context/authContext";
 
 
 
 export default function DocumentExternalIncomingPage() {
-    const [data, setData] = useState<DocumentCategory[]>([]);
-    const [filter, setFilter] = useState<DataFilter>({ pageNumber: 1, pageSize: 5 });
+    const { hasIncomingDocumentRight } = useAuthContext();
+    const [data, setData] = useState<ExternalDocument[]>([]);
+    const [filter, setFilter] = useState<ExternalDocumentFilter>({ documentType: DocType.Incoming, pageNumber: 1, pageSize: 10 });
     const [totalRecords, setTotalRecords] = useState<number>(0);
-    const [formSetting, setFormSetting] = useState<FormSetting>(formSettingDefault);
-    const [detail, setDetail] = useState<DocumentCategory>();
-    const [openDeleteDialog, setOpenDeleteDialog] = useState<ConfirmDialogState<number>>(confirmDialogStateDefaultInt);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState<ConfirmDialogState<string>>(confirmDialogStateDefault);
     const [tableLoading, setTableLoading] = useState<boolean>(false);
-    const columns: ColumnDef<DocumentCategory>[] = [
+    const [filterMenuOpen, setFilterMenuOpen] = useState(true)
+    const [isExportCsv, setIsExportCsv] = useState<boolean>(false);
+
+    const columns: ColumnDef<ExternalDocument>[] = [
         ...ColumnsData,
         {
             id: 'actions',
             header: ({ column }) => (
-                <DataTableColumnHeader className="text-end mr-22" column={column} title='Action' />
+                <DataTableColumnHeader className="text-center" column={column} title='Action' />
             ),
             cell: ({ row }) => (
-                <div className="flex space-x-2 justify-end">
-                    <Button onClick={() => handleFormAction(FormMode.EDIT, row)} variant="outline" size="sm" className="h-8 px-2 py-0">
-                        <Pencil size={14} className="mr-1" />
-                        Edit
-                    </Button>
-                    <Button onClick={() => setOpenDeleteDialog({ open: true, id: row.original.id, name: row.original.name })} variant="outline" size="sm" className="h-8 px-2 py-0">
-                        <Trash size={14} className="mr-1" />
-                        Delete
-                    </Button>
+                <div className="flex space-x-2 justify-center">
+                    <Link href={`${PATH.DocumentExternalIncoming}/${row.original.id}`} target="_blank">
+                        <Button variant="outline" size="sm" className="h-8 px-2 py-0">
+                            <Eye size={14} />
+                        </Button>
+                    </Link>
+                    {hasIncomingDocumentRight&&<Button onClick={() => setOpenDeleteDialog({ open: true, id: row.original.id, name: row.original.name })} variant="outline" size="sm" className="h-8 px-2 py-0">
+                        <Trash size={14} />
+                    </Button>}
                 </div>
             ),
         }
     ];
 
     useEffect(() => {
+        console.log("filter: ", filter)
         handleGetList();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,79 +68,81 @@ export default function DocumentExternalIncomingPage() {
     // API HANDLER
     const handleGetList = () => {
         setTableLoading(true)
-        documentCategoryRequest.getByFilter(filter).then(res => {
+        externalDocumentRequest.getAll(filter).then(res => {
             console.log("res:", res.data)
             setData(res.data || []);
             setTotalRecords(res.totalRecords ?? 0)
         }).finally(() => setTableLoading(false));
     }
 
-    //FORM HANDLER
-    const handleFormAction = (mode: FormMode, row?: Row<DocumentCategory>) => {
-        if (mode == FormMode.ADD) {
-            setDetail(defaultDocumentCategory);
-        }
-        else if (row && mode == FormMode.EDIT) {
-            const id = row.original.id;
-            documentCategoryRequest.getById(id).then(res => {
-                setDetail(res.data);
-            });
-
-        }
-        setFormSetting({
-            mode: mode,
-            open: true
-        })
-    }
-
-    const handleFormSubmit = (data: DocumentCategory) => {
-        if (formSetting.mode == FormMode.ADD) {
-            documentCategoryRequest.create(data).then(res => {
-                handleSuccessApi({ title: "Insert successfully!", message: res.message })
-                handleGetList();
-            });
-        }
-        else if (formSetting.mode == FormMode.EDIT) {
-            documentCategoryRequest.update(detail!.id, data).then(res => {
-                handleSuccessApi({ title: "Updated successfully!", message: res.message })
-                handleGetList();
-            });
-        }
-        setFormSetting({ ...formSetting, open: false })
-    }
-
     //DELETE HANDLER
     const handleConfirmDelete = () => {
-        documentCategoryRequest.delete(openDeleteDialog.id).then(res => {
-            handleSuccessApi({ title: "Deleted successfully!", message: res.message })
+        externalDocumentRequest.delete(openDeleteDialog.id).then(res => {
+            toastClientSuccess("Xóa văn bản successfully!", res.message)
             handleGetList();
         });
         setOpenDeleteDialog({ ...openDeleteDialog, open: false })
     }
 
+    //SEARCH & FILTER
+    const handleSearch = (query: string) => {
+        setFilter({ ...filter, pageNumber: 1, searchValue: query })
+    };
+
+    const handleExport = () => {
+        setIsExportCsv(true);
+        // setIsExportCsv(false);
+    };
+
     return (
         <div>
-            <PageHeader title="Book Category" subtitle="Here&apos;s a list of category">
-                <Button onClick={() => handleFormAction(FormMode.ADD)} className='space-x-1'>
-                    <span>Create</span><Plus size={18} />
-                </Button>
+            <PageHeader title="Danh sách văn bản đến" subtitle="Danh sách văn bản đến từ ngoài tổ chức">
+                {hasIncomingDocumentRight&&<Link href={`${PATH.DocumentExternalIncoming}/create`} target="_blank">
+                    <Button className='space-x-1'>
+                        <span>{BUTTON_NAME.Add}</span><Plus size={18} />
+                    </Button>
+                </Link>}
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant='ghost' size="icon" className="bg-white shadow">
+                            <MoreHorizontal className="text-black h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-50 shadow rounded mt-2">
+                        <DropdownMenuItem
+                            onClick={handleExport}
+                            className="px-3 py-2 flex items-center cursor-pointer hover:bg-muted" >
+                            <FileSpreadsheet size={18} className="mr-2" />
+                            <span>{BUTTON_NAME.ExportCsv}</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </PageHeader>
-            <div className='space-y-4'>
-                <DataTable data={data} columns={columns} loading={tableLoading} />
-                <DataTablePagination
-                    pageSizeList={[5, 8, 10]}
-                    pageSize={filter?.pageSize}
-                    pageNumber={filter?.pageNumber}
-                    totalRecords={totalRecords}
-                    onPageNumberChanged={(pageNumber: number) => setFilter({ ...filter, pageNumber: pageNumber })}
-                    onPageSizeChanged={(pageSize: number) => setFilter({ pageNumber: 1, pageSize: pageSize })} />
+
+            <div className={cn("grid grid-flow-row grid-cols-5 gap-x-2 gap-y-0")}>
+                <FilterMenu setFilter={setFilter} filter={filter}
+                    className="row-span-3" onOpenChange={setFilterMenuOpen} />
+                <SearchInput className="col-span-2 h-fit" onSearch={handleSearch} />
+                <DateRangePicker onApply={(range) => setFilter({ ...filter, startDate: dateToString(range?.from), endDate: dateToString(range?.to) })}
+                    placeholder="Chọn ngày phát hành văn bản" />
+                <div className="h-fit"></div>
+                <div className={cn('space-y-2', filterMenuOpen ? 'col-span-4' : ' col-span-5')}>
+                    <DataTable data={data}
+                        columns={columns}
+                        isExportCsv={isExportCsv}
+                        setIsExportCsv={setIsExportCsv}
+                        loading={tableLoading} />
+                    <DataTablePagination
+                        pageSizeList={[5, 8, 10]}
+                        pageSize={filter?.pageSize}
+                        pageNumber={filter?.pageNumber}
+                        totalRecords={totalRecords}
+                        onPageNumberChanged={(pageNumber: number) => setFilter({ ...filter, pageNumber: pageNumber })}
+                        onPageSizeChanged={(pageSize: number) => setFilter({ ...filter, pageNumber: 1, pageSize: pageSize })} />
+                </div>
             </div>
-            <FormDetails
-                title="Book Category"
-                data={detail}
-                onSubmit={handleFormSubmit}
-                formSetting={formSetting}
-                setFormSetting={setFormSetting} />
+
+
 
             <ConfirmDialog
                 destructive

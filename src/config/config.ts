@@ -3,11 +3,13 @@ import { z } from 'zod'
 const configSchema = z.object({
     NEXT_PUBLIC_API_ENDPOINT: z.string(),
     NEXT_PUBLIC_TOKEN_STORAGE_KEY: z.string(),
+    NEXT_PUBLIC_API_ROOT: z.string(),
 })
 
 const configProject = configSchema.safeParse({
     NEXT_PUBLIC_API_ENDPOINT: process.env.NEXT_PUBLIC_API_ENDPOINT,
     NEXT_PUBLIC_TOKEN_STORAGE_KEY: process.env.NEXT_PUBLIC_TOKEN_STORAGE_KEY,
+    NEXT_PUBLIC_API_ROOT: process.env.NEXT_PUBLIC_API_ROOT,
 })
 if (!configProject.success) {
     console.error(configProject.error.issues)

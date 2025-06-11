@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { PATH } from "@/constants/paths";
 import { useAuthContext } from "@/context/authContext";
 import { handleSuccessApi } from "@/lib/utils";
-import { LoginRequest } from "@/types/User";
+import { LoginRequest, Role } from "@/types/User";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -27,9 +27,15 @@ export default function Login() {
         setLoading(true);
         const data = form.getValues();
         try {
-            await login(data);
-            handleSuccessApi({ message: "Login successfully!" });
-            router.push(PATH.Dashboard);
+            const loginResult = await login(data);
+            handleSuccessApi({ message: "Đăng nhập thành công!" });
+            if (loginResult.data?.user.roleId == Role.Approver) {
+                router.push(PATH.DocumentSign);
+            }
+            else {
+                router.push(PATH.Dashboard);
+            }
+
         } finally {
             setLoading(false);
         }

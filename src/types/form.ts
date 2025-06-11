@@ -3,7 +3,8 @@ export enum FormMode {
     NO_ACTION = "",
     VIEW = "Details",
     ADD = "Create",
-    EDIT = "Update"
+    EDIT = "Update",
+    REDIRECT = "Redirect"
 }
 
 export type FormSetting = {

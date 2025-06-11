@@ -114,28 +114,53 @@
 }
 
 @layer utilities {
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   .faded-bottom {
-    @apply after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:hidden after:h-32 after:w-full after:bg-[linear-gradient(180deg,_transparent_10%,_hsl(var(--background))_70%)] after:md:block;
+    position: relative;
+  }
+
+  .faded-bottom::after {
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: none;
+    height: 8rem;
+    /* hoặc 32 nếu bạn muốn h-32 */
+    width: 100%;
+    content: "";
+    background: linear-gradient(180deg, transparent 10%, hsl(var(--background)) 70%);
+  }
+
+  @media (min-width: 768px) {
+    .faded-bottom::after {
+      display: block;
+    }
   }
 
   .lds-ring,
   .lds-ring div {
     box-sizing: border-box;
   }
+
   .lds-ring {
     display: inline-block;
     position: relative;
   }
+
   .lds-ring div {
     box-sizing: border-box;
     display: block;
@@ -144,22 +169,90 @@
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #2563eb transparent transparent transparent;
   }
+
   .lds-ring div:nth-child(1) {
     animation-delay: -0.45s;
   }
+
   .lds-ring div:nth-child(2) {
     animation-delay: -0.3s;
   }
+
   .lds-ring div:nth-child(3) {
     animation-delay: -0.15s;
   }
+
   @keyframes lds-ring {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  .resize-drag,
+  .draggable {
+    border-radius: 8px;
+    padding: 10px;
+    margin: 1rem;
+    background-color: #29e;
+    color: white;
+    font-size: 16px;
+    touch-action: none;
+    box-sizing: border-box;
+  }
+
+  #outer-dropzone {
+    height: 140px;
+  }
+
+
+  .dropzone {
+    background-color: #d4d4d7;
+    border: dashed 2px transparent;
+    border-radius: 2px;
+    margin: 0px !important;
+    padding: 0px;
+    /* width: 80%; */
+    transition: background-color 0.3s;
+  }
+
+  .drop-active {
+    border-color: #aaa;
+  }
+
+  .drop-target {
+    background-color: #29e;
+    border-style: solid;
+  }
+
+  .drag-drop {
+    font-size: 14px;
+    /* margin-top: 3rem; */
+    color: #fff;
+    background-color: #29e;
+    border: solid 2px #d4d4d7;
+    touch-action: none;
+    transform: translate(0px, 0px);
+    transition: background-color 0.3s;
+  }
+
+
+  .drag-drop.can-drop {
+    color: #000;
+    background-color: #4e4;
+    border: solid 2px #4e4;
+  }
+
+  #react-doc-viewer div{
+    height: 100%;
+    border: none;
+  }
+
+   #react-doc-viewer{
+    overflow-y: auto;
   }
 }
 
@@ -167,6 +260,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

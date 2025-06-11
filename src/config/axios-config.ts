@@ -5,9 +5,6 @@ import envConfig from "./config";
 
 export const ROOT_API: CreateAxiosDefaults = {
     baseURL: envConfig.NEXT_PUBLIC_API_ENDPOINT,
-    headers: {
-        'Content-type': 'application/json',
-    }
 }
 
 export const authRequestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {

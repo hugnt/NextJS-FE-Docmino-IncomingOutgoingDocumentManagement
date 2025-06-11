@@ -110,7 +110,7 @@ export default function DocumentCategoryList() {
 
     return (
         <div>
-            <PageHeader title="Book Category" subtitle="Here&apos;s a list of category">
+            <PageHeader title="Danh mục loại văn bản" subtitle="Here&apos;s a list of category">
                 <Button onClick={() => handleFormAction(FormMode.ADD)} className='space-x-1'>
                     <span>Create</span><Plus size={18} />
                 </Button>

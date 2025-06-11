@@ -12,7 +12,7 @@ const PermissionRoute = ({ children, role }: { children: JSX.Element, role: Role
     const router = useRouter();
 
     useEffect(() => {
-        if (!loading && user && user.role !== role) {
+        if (!loading && user && user.roleId !== role) {
             router.replace(PATH.Forbidden);
         }
     }, [user, loading, role, router]);
@@ -21,8 +21,8 @@ const PermissionRoute = ({ children, role }: { children: JSX.Element, role: Role
         return <PageLoading />;
     }
 
-    if (!user || user.role !== role) {
-        return null;
+    if (!user || user.roleId !== role) {
+        return <div>NO Permission</div>;
     }
 
     return children;

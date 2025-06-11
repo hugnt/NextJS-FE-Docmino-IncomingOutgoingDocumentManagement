@@ -8,3 +8,8 @@ export type Result<T = any> = {
     totalRecords?: number
 };
 
+
+export type KeyValue<TKey = any, TValue = any> = {
+    key: TKey,
+    value: TValue
+}

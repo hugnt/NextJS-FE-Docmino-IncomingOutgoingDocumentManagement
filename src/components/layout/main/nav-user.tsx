@@ -28,6 +28,7 @@ import {
 import { useAuthContext } from "@/context/authContext"
 import { getInitials } from "@/lib/utils"
 import { User } from "@/types/User"
+import Link from "next/link"
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar()
@@ -46,7 +47,7 @@ export function NavUser({ user }: { user: User }) {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user && user.fullname}</span>
-                <span className="truncate text-xs">{user && user.username}</span>
+                <span className="truncate text-xs">{user && user.roleName}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -70,10 +71,12 @@ export function NavUser({ user }: { user: User }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+              <Link href="/profile">
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>

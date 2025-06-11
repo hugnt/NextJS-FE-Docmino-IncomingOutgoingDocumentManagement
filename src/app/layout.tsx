@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className={``}>
         <NextTopLoader showSpinner={false} />
         <NuqsAdapter>
-          <AuthProvider>
+          <AuthProvider isTesting={false}>
             <AppLayout>
               {children}
             </AppLayout>
