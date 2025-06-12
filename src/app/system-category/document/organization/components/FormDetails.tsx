@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { defaultDocumentCategory, DocumentCategory } from "@/types/DocumentCategory";
+import { defaultOrganization, Organization } from "@/types/Organization";
 import { FormMode, FormSetting, formSettingDefault } from "@/types/form";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -13,14 +13,14 @@ import { useForm } from "react-hook-form";
 interface FormDetailProps {
     formSetting: FormSetting,
     setFormSetting: (setting: FormSetting) => void,
-    data?: DocumentCategory,
-    onSubmit?: (data: DocumentCategory) => void
+    data?: Organization,
+    onSubmit?: (data: Organization) => void
 }
 
 export default function FormDetails(props: FormDetailProps) {
     const { formSetting = formSettingDefault, setFormSetting = () => { }, data, onSubmit = () => { } } = props;
-    const form = useForm<DocumentCategory>({
-        defaultValues: data ?? defaultDocumentCategory,
+    const form = useForm<Organization>({
+        defaultValues: data ?? defaultOrganization,
     })
 
     useEffect(() => {
@@ -45,17 +45,17 @@ export default function FormDetails(props: FormDetailProps) {
                 <SheetHeader className='text-left'>
                     <SheetTitle>
                         {formSetting.mode == FormMode.EDIT && 'Cập nhật thông tin'}
-                        {formSetting.mode == FormMode.ADD && 'Thêm mới bản ghi'}
+                        {formSetting.mode == FormMode.ADD && 'Thêm mới tổ chức'}
                     </SheetTitle>
                     <SheetDescription>
-                        {formSetting.mode == FormMode.EDIT && 'Cập nhật thông tin của bản ghi đã chọn.'}
-                        {formSetting.mode == FormMode.ADD && 'Thêm một bản ghi mới bằng cách cung cấp thông tin cần thiết.'}
+                        {formSetting.mode == FormMode.EDIT && 'Cập nhật thông tin của tổ chức đã chọn.'}
+                        {formSetting.mode == FormMode.ADD && 'Thêm một tổ chức mới bằng cách cung cấp thông tin cần thiết.'}
                         Nhấn lưu khi bạn hoàn tất.
                     </SheetDescription>
                 </SheetHeader>
                 <Form {...form}>
                     <form
-                        id='tasks-form'
+                        id='organization-form'
                         onSubmit={handleFormSubmit}
                         className='flex-1 space-y-5 px-4'
                     >
@@ -64,15 +64,53 @@ export default function FormDetails(props: FormDetailProps) {
                             name='name'
                             render={({ field }) => (
                                 <FormItem className='space-y-1'>
-                                    <FormLabel>Tên danh mục</FormLabel>
+                                    <FormLabel>Tên tổ chức</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder='Nhập tên danh mục' />
+                                        <Input {...field} placeholder='Nhập tên tổ chức' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-
+                        <FormField
+                            control={form.control}
+                            name='phoneNumber'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1'>
+                                    <FormLabel>Số điện thoại</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder='Nhập số điện thoại' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='email'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1'>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder='Nhập email' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='contactPersonName'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1'>
+                                    <FormLabel>Người liên hệ</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder='Nhập tên người liên hệ' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name='description'
@@ -92,7 +130,7 @@ export default function FormDetails(props: FormDetailProps) {
                     <SheetClose asChild>
                         <Button variant='outline'>Đóng</Button>
                     </SheetClose>
-                    <Button form='tasks-form' type='submit'>
+                    <Button form='organization-form' type='submit'>
                         Lưu thay đổi
                     </Button>
                 </SheetFooter>

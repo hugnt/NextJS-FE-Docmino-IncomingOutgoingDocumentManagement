@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { defaultDocumentCategory, DocumentCategory } from "@/types/DocumentCategory";
+import { defaultDocumentField, DocumentField } from "@/types/DocumentField";
 import { FormMode, FormSetting, formSettingDefault } from "@/types/form";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -13,14 +13,14 @@ import { useForm } from "react-hook-form";
 interface FormDetailProps {
     formSetting: FormSetting,
     setFormSetting: (setting: FormSetting) => void,
-    data?: DocumentCategory,
-    onSubmit?: (data: DocumentCategory) => void
+    data?: DocumentField,
+    onSubmit?: (data: DocumentField) => void
 }
 
 export default function FormDetails(props: FormDetailProps) {
     const { formSetting = formSettingDefault, setFormSetting = () => { }, data, onSubmit = () => { } } = props;
-    const form = useForm<DocumentCategory>({
-        defaultValues: data ?? defaultDocumentCategory,
+    const form = useForm<DocumentField>({
+        defaultValues: data ?? defaultDocumentField,
     })
 
     useEffect(() => {
@@ -64,9 +64,23 @@ export default function FormDetails(props: FormDetailProps) {
                             name='name'
                             render={({ field }) => (
                                 <FormItem className='space-y-1'>
-                                    <FormLabel>Tên danh mục</FormLabel>
+                                    <FormLabel>Tên lĩnh vực</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder='Nhập tên danh mục' />
+                                        <Input {...field} placeholder='Nhập tên lĩnh vực' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name='code'
+                            render={({ field }) => (
+                                <FormItem className='space-y-1'>
+                                    <FormLabel>Mã lĩnh vực</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder='Nhập mã lĩnh vực' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

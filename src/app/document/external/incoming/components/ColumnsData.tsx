@@ -8,13 +8,6 @@ import Link from "next/link";
 
 export const ColumnsData: ColumnDef<ExternalDocument>[] = [
     {
-        id: "index",
-        header: "No.",
-        cell: ({ row }) => <div>{row.index + 1}</div>,
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
         accessorKey: 'name',
         header: ({ column }) => (
             <DataTableColumnHeader className={`${COLUMN_WIDTH.shortName}`} column={column} title='Tên văn bản' />

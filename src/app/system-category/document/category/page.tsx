@@ -16,33 +16,44 @@ import { Pencil, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ColumnsData } from "./components/ColumnsData";
 import FormDetails from "./components/FormDetails";
-
-
+import { COLUMN_WIDTH } from "@/constants/columnWidth";
+import SearchInput from "@/components/input/SearchInput";
 
 export default function DocumentCategoryList() {
     const [data, setData] = useState<DocumentCategory[]>([]);
-    const [filter, setFilter] = useState<DataFilter>({ pageNumber: 1, pageSize: 5 });
+    const [filter, setFilter] = useState<DataFilter>({ pageNumber: 1, pageSize: 10 });
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [formSetting, setFormSetting] = useState<FormSetting>(formSettingDefault);
     const [detail, setDetail] = useState<DocumentCategory>();
     const [openDeleteDialog, setOpenDeleteDialog] = useState<ConfirmDialogState<number>>(confirmDialogStateDefaultInt);
     const [tableLoading, setTableLoading] = useState<boolean>(false);
     const columns: ColumnDef<DocumentCategory>[] = [
+        {
+            id: "index",
+            header: ({ column }) => (
+                <DataTableColumnHeader className={`${COLUMN_WIDTH.index}`} column={column} title='Stt' />
+            ),
+            cell: ({ row }) => (
+                <div>
+                    {((filter.pageNumber ?? 1) - 1) * (filter.pageSize ?? 10) + row.index + 1}
+                </div>
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
         ...ColumnsData,
         {
             id: 'actions',
             header: ({ column }) => (
-                <DataTableColumnHeader className="text-end mr-22" column={column} title='Action' />
+                <DataTableColumnHeader className="text-center" column={column} title='Hành động' />
             ),
             cell: ({ row }) => (
-                <div className="flex space-x-2 justify-end">
+                <div className="flex space-x-2 justify-center">
                     <Button onClick={() => handleFormAction(FormMode.EDIT, row)} variant="outline" size="sm" className="h-8 px-2 py-0">
-                        <Pencil size={14} className="mr-1" />
-                        Edit
+                        <Pencil size={14} />
                     </Button>
                     <Button onClick={() => setOpenDeleteDialog({ open: true, id: row.original.id, name: row.original.name })} variant="outline" size="sm" className="h-8 px-2 py-0">
-                        <Trash size={14} className="mr-1" />
-                        Delete
+                        <Trash size={14} />
                     </Button>
                 </div>
             ),
@@ -86,13 +97,13 @@ export default function DocumentCategoryList() {
     const handleFormSubmit = (data: DocumentCategory) => {
         if (formSetting.mode == FormMode.ADD) {
             documentCategoryRequest.create(data).then(res => {
-                handleSuccessApi({ title: "Insert successfully!", message: res.message })
+                handleSuccessApi({ title: "Thêm mới thành công!", message: res.message })
                 handleGetList();
             });
         }
         else if (formSetting.mode == FormMode.EDIT) {
             documentCategoryRequest.update(detail!.id, data).then(res => {
-                handleSuccessApi({ title: "Updated successfully!", message: res.message })
+                handleSuccessApi({ title: "Cập nhật thành công!", message: res.message })
                 handleGetList();
             });
         }
@@ -102,23 +113,31 @@ export default function DocumentCategoryList() {
     //DELETE HANDLER
     const handleConfirmDelete = () => {
         documentCategoryRequest.delete(openDeleteDialog.id).then(res => {
-            handleSuccessApi({ title: "Deleted successfully!", message: res.message })
+            handleSuccessApi({ title: "Xóa thành công!", message: res.message })
             handleGetList();
         });
         setOpenDeleteDialog({ ...openDeleteDialog, open: false })
     }
 
+    //SEARCH & FILTER
+    const handleSearch = (query: string) => {
+        setFilter({ ...filter, pageNumber: 1, searchValue: query })
+    };
+    
     return (
         <div>
-            <PageHeader title="Danh mục loại văn bản" subtitle="Here&apos;s a list of category">
+            <PageHeader title="Danh mục loại văn bản" subtitle="Quản lý danh mục loại văn bản">
                 <Button onClick={() => handleFormAction(FormMode.ADD)} className='space-x-1'>
-                    <span>Create</span><Plus size={18} />
+                    <span>Thêm mới</span><Plus size={18} />
                 </Button>
             </PageHeader>
+            <div>
+                <SearchInput className="w-[300px]" onSearch={handleSearch} />
+            </div>
             <div className='space-y-4'>
                 <DataTable data={data} columns={columns} loading={tableLoading} />
                 <DataTablePagination
-                    pageSizeList={[5, 8, 10]}
+                    pageSizeList={[10, 15, 20]}
                     pageSize={filter?.pageSize}
                     pageNumber={filter?.pageNumber}
                     totalRecords={totalRecords}
@@ -126,7 +145,6 @@ export default function DocumentCategoryList() {
                     onPageSizeChanged={(pageSize: number) => setFilter({ pageNumber: 1, pageSize: pageSize })} />
             </div>
             <FormDetails
-                title="Book Category"
                 data={detail}
                 onSubmit={handleFormSubmit}
                 formSetting={formSetting}
@@ -141,12 +159,12 @@ export default function DocumentCategoryList() {
                 title={`Delete this category: ${openDeleteDialog.name} ?`}
                 desc={
                     <>
-                        You are about to delete a category with the name{' '}
+                        Bạn sắp xóa danh mục với tên{' '}
                         <strong>{openDeleteDialog.name}</strong>. <br />
-                        This action cannot be undone.
+                        Hành động này không thể hoàn tác.
                     </>
                 }
-                confirmText='Delete' />
+                confirmText='Xóa' />
         </div>
 
     )

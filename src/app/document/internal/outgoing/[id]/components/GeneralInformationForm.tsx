@@ -20,7 +20,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
     documentRegisters,
     categories,
     fields,
-    organizations,
+    departments,
     securePriorities,
     urgentPriorities,
     documentStatus
@@ -47,7 +47,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent>
                   {
                     documentRegisters?.map(x => {
-                      return <SelectItem key={x.key} value={x.key}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -71,43 +71,63 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 gap-3">
-
+        <FormField
+          control={form.control}
+          name="departmentId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phòng ban nhận văn bản</FormLabel>
+              <Select
+                value={field.value ? String(field.value) : undefined}
+                onValueChange={val => field.onChange(Number(val))}>
+                <FormControl className="w-full">
+                  <SelectTrigger disabled={readOnly}>
+                    <SelectValue placeholder="Chọn phòng ban nhận văn bản" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent >
+                  {
+                    departments?.map(x => {
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
+                    })
+                  }
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="col-span-1 grid grid-cols-2 gap-3">
           <FormField
             control={form.control}
-            name='issuedDate'
+            name='codeNumber'
             render={({ field }) => (
               <FormItem className='space-y-1'>
-                <FormLabel>Ngày văn bản</FormLabel>
+                <FormLabel>Số đi</FormLabel>
                 <FormControl>
-                  <DatePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder={"Chọn ngày văn bản"}
-                    disabled={readOnly}
-                  />
+                  <Input readOnly={readOnly} {...field} placeholder='Nhập số đi' />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='codeNotation'
+            render={({ field }) => (
+              <FormItem className='space-y-1'>
+                <FormLabel>
+                  Số, ký hiệu
+                  <span className="text-red-500">(*)</span>
+                </FormLabel>
+                <FormControl>
+                  <Input readOnly={readOnly} {...field} placeholder='[Số thứ tự]/[Chữ viết tắt cơ quan ban hành]–[viết tắt loại văn bản]' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name='codeNotation'
-          render={({ field }) => (
-            <FormItem className='space-y-1'>
-              <FormLabel>
-                Số, ký hiệu
-                <span className="text-red-500">(*)</span>
-              </FormLabel>
-              <FormControl>
-                <Input readOnly={readOnly} {...field} placeholder='[Số thứ tự]/[Chữ viết tắt cơ quan ban hành]–[viết tắt loại văn bản]' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="categoryId"
@@ -127,7 +147,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent >
                   {
                     categories?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -156,7 +176,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent >
                   {
                     fields?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -166,24 +186,27 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
           )}
         />
 
+      </div>
+      <div className="grid  grid-cols-3  gap-3">
         <FormField
           control={form.control}
-          name="organizationId"
+          name="securePriority"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Đơn vị soạn</FormLabel>
+              <FormLabel>Độ mật</FormLabel>
               <Select
                 value={field.value ? String(field.value) : undefined}
+                defaultValue={"0"}
                 onValueChange={val => field.onChange(Number(val))}>
                 <FormControl className="w-full">
                   <SelectTrigger disabled={readOnly}>
-                    <SelectValue placeholder="Chọn cơ quan nhận văn bản" />
+                    <SelectValue placeholder="Chọn độ mật" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent >
                   {
-                    organizations?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                    securePriorities?.map(x => {
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -192,133 +215,119 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
             </FormItem>
           )}
         />
-      </div>
-      <div>
-        <div className="grid  grid-cols-3  gap-3">
-          <FormField
-            control={form.control}
-            name="securePriority"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Độ mật</FormLabel>
-                <Select
-                  value={field.value ? String(field.value) : undefined}
-                  defaultValue={"0"}
-                  onValueChange={val => field.onChange(Number(val))}>
-                  <FormControl className="w-full">
-                    <SelectTrigger disabled={readOnly}>
-                      <SelectValue placeholder="Chọn độ mật" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent >
-                    {
-                      securePriorities?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
-                      })
-                    }
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="urgentPriority"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Độ khẩn</FormLabel>
-                <Select
-                  value={field.value ? String(field.value) : undefined}
-                  defaultValue={"0"}
-                  onValueChange={val => field.onChange(Number(val))}>
-                  <FormControl className="w-full">
-                    <SelectTrigger disabled={readOnly}>
-                      <SelectValue placeholder="Chọn độ khẩn" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent >
-                    {
-                      urgentPriorities?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
-                      })
-                    }
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="documentStatus"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Trạng thái</FormLabel>
-                <Select
-                  value={field.value ? String(field.value) : undefined}
-                  defaultValue={"0"}
-                  onValueChange={val => field.onChange(Number(val))}>
-                  <FormControl className="w-full">
-                    <SelectTrigger disabled={readOnly}>
-                      <SelectValue placeholder="Trạng thái xử lý" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent >
-                    {
-                      documentStatus?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
-                      })
-                    }
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name='pageAmount'
-            render={({ field }) => (
-              <FormItem className='space-y-1'>
-                <FormLabel>Số trang</FormLabel>
-                <FormControl>
-                  <Input readOnly={readOnly} type="number" {...field} placeholder='Nhập số tờ' />
+        <FormField
+          control={form.control}
+          name="urgentPriority"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Độ khẩn</FormLabel>
+              <Select
+                value={field.value ? String(field.value) : undefined}
+                defaultValue={"0"}
+                onValueChange={val => field.onChange(Number(val))}>
+                <FormControl className="w-full">
+                  <SelectTrigger disabled={readOnly}>
+                    <SelectValue placeholder="Chọn độ khẩn" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='issuedAmount'
-            render={({ field }) => (
-              <FormItem className='space-y-1'>
-                <FormLabel>Số bản</FormLabel>
-                <FormControl>
-                  <Input readOnly={readOnly} type="number" {...field} placeholder='Nhập số bản' />
+                <SelectContent >
+                  {
+                    urgentPriorities?.map(x => {
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
+                    })
+                  }
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="documentStatus"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Trạng thái</FormLabel>
+              <Select
+                value={field.value ? String(field.value) : undefined}
+                defaultValue={"0"}
+                onValueChange={val => field.onChange(Number(val))}>
+                <FormControl className="w-full">
+                  <SelectTrigger disabled={readOnly}>
+                    <SelectValue placeholder="Trạng thái xử lý" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        
-          <div></div>
-          <FormField
-            control={form.control}
-            name='description'
-            render={({ field }) => (
-              <FormItem className='space-y-1 col-span-3'>
-                <FormLabel>Trích yếu nội dung</FormLabel>
-                <FormControl>
-                  <Textarea readOnly={readOnly} className="min-h-auto" {...field} placeholder='Nhập trích yếu nội dung' rows={1} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+                <SelectContent >
+                  {
+                    documentStatus?.map(x => {
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
+                    })
+                  }
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='issuedDate'
+          render={({ field }) => (
+            <FormItem className='space-y-1'>
+              <FormLabel>Ngày ký văn bản</FormLabel>
+              <FormControl>
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder={"Chọn ngày ký văn bản"}
+                  disabled={readOnly}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='pageAmount'
+          render={({ field }) => (
+            <FormItem className='space-y-1'>
+              <FormLabel>Số trang</FormLabel>
+              <FormControl>
+                <Input readOnly={readOnly} type="number" {...field} placeholder='Nhập số tờ' />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='issuedAmount'
+          render={({ field }) => (
+            <FormItem className='space-y-1'>
+              <FormLabel>Số bản</FormLabel>
+              <FormControl>
+                <Input readOnly={readOnly} type="number" {...field} placeholder='Nhập số bản' />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div></div>
+        <div></div>
+        <FormField
+          control={form.control}
+          name='description'
+          render={({ field }) => (
+            <FormItem className='space-y-1 col-span-3'>
+              <FormLabel>Trích yếu nội dung</FormLabel>
+              <FormControl>
+                <Textarea readOnly={readOnly} className="min-h-auto" {...field} placeholder='Nhập trích yếu nội dung' rows={1} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   )

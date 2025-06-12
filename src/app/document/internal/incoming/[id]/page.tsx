@@ -1,7 +1,7 @@
 "use client"
 import confirmProcessRequest from "@/api/confirmProcessRequest"
 import documentRequest from "@/api/documentRequest"
-import externalDocumentRequest from "@/api/externalDocumentRequest"
+import internalDocumentRequest from "@/api/internalDocumentRequest"
 import { createApprovalFormData } from "@/api/mappings/confirmProcessMapping"
 import { createInternalDocumentFormData } from "@/api/mappings/documentMapping"
 import ApprovalDialog from "@/app/document/components/ApprovalDialog"
@@ -33,6 +33,7 @@ import ConfirmProcessTracking from "../../../components/ConfirmProcessTracking"
 import ConfirmProcessSettings from "./components/ConfirmProcessSettings"
 import FileAttachment from "./components/FileAttachment"
 import GeneralInformationForm from "./components/GeneralInformationForm"
+import { PATH } from "@/constants/paths"
 
 
 export default function InternalDocumentDetailPage() {
@@ -69,7 +70,7 @@ export default function InternalDocumentDetailPage() {
 
     const handleGetDetails = (id: string) => {
         setLoading(true)
-        externalDocumentRequest
+        internalDocumentRequest
             .getById(id)
             .then((res) => {
                 console.log("res-details", res.data)
@@ -126,16 +127,16 @@ export default function InternalDocumentDetailPage() {
         setLoadingSave(true)
         const formData = createInternalDocumentFormData(data)
         if (formMode === FormMode.ADD) {
-            externalDocumentRequest.addIncomingDocument(formData)
+            internalDocumentRequest.addIncomingDocument(formData)
                 .then((res) => {
                     toastClientSuccess("Văn bản thêm đã được thêm", "Văn bản đã được thêm mới")
                     setFormMode(FormMode.VIEW)
-                    router.push(`/document/external/incoming/${res.data}`);
+                    router.push(`${PATH.DocumentInternalIncoming}/${res.data}`);
                 })
                 .finally(() => setLoadingSave(false))
         }
         else if (formMode === FormMode.EDIT) {
-            externalDocumentRequest.updateIncomingDocument(id, formData)
+            internalDocumentRequest.updateIncomingDocument(id, formData)
                 .then(() => {
                     toastClientSuccess("Văn bản đã được cập nhật", "Cập nhật văn bản đến thành công")
                     setFormMode(FormMode.VIEW);

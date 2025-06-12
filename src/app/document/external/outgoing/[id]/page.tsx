@@ -2,6 +2,7 @@
 import confirmProcessRequest from "@/api/confirmProcessRequest"
 import documentRequest from "@/api/documentRequest"
 import externalDocumentRequest from "@/api/externalDocumentRequest"
+import { createApprovalFormData } from "@/api/mappings/confirmProcessMapping"
 import { createDocumentFormData } from "@/api/mappings/documentMapping"
 import ApprovalDialog from "@/app/document/components/ApprovalDialog"
 import CompactStatus from "@/app/document/components/CompactStatus"
@@ -17,6 +18,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BUTTON_NAME } from "@/constants/buttons"
 import { TAB_KEY } from "@/constants/tabs"
+import { useAuthContext } from "@/context/authContext"
 import { toastClientError, toastClientSuccess } from "@/lib/utils"
 import { ApproveDocumentRequest, ImageSignature, ProcessDetail, RejectDocumentRequest, SignType } from "@/types/ConfirmProcess"
 import { DocumentStatus } from "@/types/Document"
@@ -31,9 +33,7 @@ import ConfirmProcessTracking from "../../../components/ConfirmProcessTracking"
 import ConfirmProcessSettings from "./components/ConfirmProcessSettings"
 import FileAttachment from "./components/FileAttachment"
 import GeneralInformationForm from "./components/GeneralInformationForm"
-import { useAuthContext } from "@/context/authContext"
-import { createApprovalFormData } from "@/api/mappings/confirmProcessMapping"
-import { formatDate } from "date-fns"
+import { PATH } from "@/constants/paths"
 
 
 export default function ExternalDocumentDetailPage() {
@@ -125,19 +125,18 @@ export default function ExternalDocumentDetailPage() {
     const handleSave = (data: ExternalDocumentDetail) => {
         console.log(data)
         setLoadingSave(true)
-        data.arrivalDate = formatDate(new Date(), "yyyy-MM-dd");
         const formData = createDocumentFormData(data)
         if (formMode === FormMode.ADD) {
-            externalDocumentRequest.addIncomingDocument(formData)
+            externalDocumentRequest.addOutgoingDocument(formData)
                 .then((res) => {
                     toastClientSuccess("Văn bản thêm đã được thêm", "Văn bản đã được thêm mới")
                     setFormMode(FormMode.VIEW)
-                    router.push(`/document/external/incoming/${res.data}`);
+                    router.push(`${PATH.DocumentExternalOutgoing}/${res.data}`);
                 })
                 .finally(() => setLoadingSave(false))
         }
         else if (formMode === FormMode.EDIT) {
-            externalDocumentRequest.updateIncomingDocument(id, formData)
+            externalDocumentRequest.updateOutgoingDocument(id, formData)
                 .then(() => {
                     toastClientSuccess("Văn bản đã được cập nhật", "Cập nhật văn bản đi thành công")
                     setFormMode(FormMode.VIEW);

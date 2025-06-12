@@ -12,7 +12,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSpreadsheet, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ColumnsData } from "./components/ColumnsData";
-import externalDocumentRequest from "@/api/externalDocumentRequest";
+import internalDocumentRequest from "@/api/internalDocumentRequest";
 import SearchInput from "@/components/input/SearchInput";
 import FilterMenu from "./components/FilterMenu";
 import { DocType } from "@/types/Document";
@@ -37,11 +37,22 @@ export default function DocumentInternalIncomingPage() {
     const [isExportCsv, setIsExportCsv] = useState<boolean>(false);
 
     const columns: ColumnDef<InternalDocument>[] = [
+        {
+            id: "index",
+            header: "Stt",
+            cell: ({ row }) => (
+                <div>
+                    {((filter.pageNumber ?? 1) - 1) * (filter.pageSize ?? 10) + row.index + 1}
+                </div>
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
         ...ColumnsData,
         {
             id: 'actions',
             header: ({ column }) => (
-                <DataTableColumnHeader className="text-center" column={column} title='Action' />
+                <DataTableColumnHeader className="text-center" column={column} title='Hành động' />
             ),
             cell: ({ row }) => (
                 <div className="flex space-x-2 justify-center">
@@ -68,7 +79,7 @@ export default function DocumentInternalIncomingPage() {
     // API HANDLER
     const handleGetList = () => {
         setTableLoading(true)
-        externalDocumentRequest.getAll(filter).then(res => {
+        internalDocumentRequest.getAll(filter).then(res => {
             console.log("res:", res.data)
             setData(res.data || []);
             setTotalRecords(res.totalRecords ?? 0)
@@ -77,7 +88,7 @@ export default function DocumentInternalIncomingPage() {
 
     //DELETE HANDLER
     const handleConfirmDelete = () => {
-        externalDocumentRequest.delete(openDeleteDialog.id).then(res => {
+        internalDocumentRequest.delete(openDeleteDialog.id).then(res => {
             toastClientSuccess("Xóa văn bản successfully!", res.message)
             handleGetList();
         });

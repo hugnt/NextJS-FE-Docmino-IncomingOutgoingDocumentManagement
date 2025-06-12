@@ -37,11 +37,22 @@ export default function DocumentExternalIncomingPage() {
     const [isExportCsv, setIsExportCsv] = useState<boolean>(false);
 
     const columns: ColumnDef<ExternalDocument>[] = [
+        {
+            id: "index",
+            header: "Stt",
+            cell: ({ row }) => (
+                <div>
+                    {((filter.pageNumber ?? 1) - 1) * (filter.pageSize ?? 10) + row.index + 1}
+                </div>
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
         ...ColumnsData,
         {
             id: 'actions',
             header: ({ column }) => (
-                <DataTableColumnHeader className="text-center" column={column} title='Action' />
+                <DataTableColumnHeader className="text-center" column={column} title='Hành động' />
             ),
             cell: ({ row }) => (
                 <div className="flex space-x-2 justify-center">

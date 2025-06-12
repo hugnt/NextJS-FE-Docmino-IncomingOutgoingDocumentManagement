@@ -35,9 +35,8 @@ export default function FilterMenu({ onOpenChange, className, filter, setFilter 
   const { arrivalDates, categories, fields, documentRegisters, documentStatus } = useDocumentContext();
   const [isOpen, setIsOpen] = useState(true)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    "loai-van-ban": true,
-    "tinh-trang-xu-ly": true,
-    "theo-so-dang-ky": true,
+    "documentStatus": true,
+    "documentRegisters": true,
   })
 
   const [sections, setSections] = useState<FilterSection[]>([])
@@ -50,32 +49,32 @@ export default function FilterMenu({ onOpenChange, className, filter, setFilter 
       id: "categories",
       title: "Loại văn bản",
       defaultOpen: false,
-      items: categories?.map(x => ({ id: x.key, label: x.value, checked: false }))
+      items: categories?.map(x => ({ id: x.id, label: x.name, checked: false }))
     })
 
     filterSections.push({
       id: "fields",
       title: "Lĩnh vực",
       defaultOpen: false,
-      items: fields?.map(x => ({ id: x.key, label: x.value, checked: false }))
+      items: fields?.map(x => ({ id: x.id, label: x.name, checked: false }))
     })
 
     filterSections.push({
       id: "documentStatus",
       title: "Trạng thái xử lý",
       defaultOpen: false,
-      items: documentStatus?.map(x => ({ id: x.key, label: x.value, checked: false }))
+      items: documentStatus?.map(x => ({ id: x.id, label: x.name, checked: false }))
     })
 
     filterSections.push({
       id: "documentRegisters",
       title: "Theo sổ đăng ký văn bản",
       defaultOpen: false,
-      items: documentRegisters?.map(x => ({ id: x.key, label: x.value, checked: false }))
+      items: documentRegisters?.map(x => ({ id: x.id, label: x.name, checked: false }))
     })
 
     setSections(filterSections);
-  }, [arrivalDates,categories,fields,documentStatus,documentRegisters])
+  }, [arrivalDates, categories, fields, documentStatus, documentRegisters])
 
   useEffect(() => {
     onOpenChange?.(isOpen)

@@ -217,7 +217,7 @@ export default function ConfirmProcessSettings(props: ConfirmProcessSettingsProp
                   <SelectContent >
                     {
                       processTypes?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                        return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                       })
                     }
                   </SelectContent>
@@ -233,7 +233,7 @@ export default function ConfirmProcessSettings(props: ConfirmProcessSettingsProp
               <FormItem>
                 <FormLabel>Người chịu trách nhiệm</FormLabel>
                 <Select
-                  defaultValue={processManagers && processManagers.length > 0 ? processManagers[0].key : ""}
+                  defaultValue={processManagers && processManagers.length > 0 ? processManagers[0].id : ""}
                   value={field.value}
                   onValueChange={field.onChange}>
                   <FormControl className="w-full">
@@ -244,7 +244,7 @@ export default function ConfirmProcessSettings(props: ConfirmProcessSettingsProp
                   <SelectContent >
                     {
                       processManagers?.map(x => {
-                        return <SelectItem key={x.key} value={x.key}>{x.value}</SelectItem>
+                        return <SelectItem key={x.id} value={x.id}>{x.name}</SelectItem>
                       })
                     }
                   </SelectContent>

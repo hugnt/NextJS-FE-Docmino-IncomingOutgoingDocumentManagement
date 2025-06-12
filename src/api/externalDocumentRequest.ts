@@ -9,6 +9,8 @@ const externalDocumentRequest = {
     getById: (id: string) => httpClient.get<ExternalDocumentDetail>(`external-documents/${id}`),
     addIncomingDocument: (body: FormData) => httpClient.post<string>('external-documents/incoming', body, {headers: {"Content-Type": "multipart/form-data", }}),
     updateIncomingDocument: (id: string, body: FormData) => httpClient.put(`external-documents/incoming/${id}`, body, {headers: {"Content-Type": "multipart/form-data", }}),
+    addOutgoingDocument: (body: FormData) => httpClient.post<string>('external-documents/outgoing', body, {headers: {"Content-Type": "multipart/form-data", }}),
+    updateOutgoingDocument: (id: string, body: FormData) => httpClient.put(`external-documents/outgoing/${id}`, body, {headers: {"Content-Type": "multipart/form-data", }}),
     delete: (id: string) => httpClient.delete(`external-documents/${id}`)
 };
 

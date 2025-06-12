@@ -33,6 +33,7 @@ import ConfirmProcessTracking from "../../../components/ConfirmProcessTracking"
 import ConfirmProcessSettings from "./components/ConfirmProcessSettings"
 import FileAttachment from "./components/FileAttachment"
 import GeneralInformationForm from "./components/GeneralInformationForm"
+import { PATH } from "@/constants/paths"
 
 
 export default function InternalDocumentDetailPage() {
@@ -126,16 +127,16 @@ export default function InternalDocumentDetailPage() {
         setLoadingSave(true)
         const formData = createInternalDocumentFormData(data)
         if (formMode === FormMode.ADD) {
-            externalDocumentRequest.addIncomingDocument(formData)
+            externalDocumentRequest.addOutgoingDocument(formData)
                 .then((res) => {
                     toastClientSuccess("Văn bản thêm đã được thêm", "Văn bản đã được thêm mới")
                     setFormMode(FormMode.VIEW)
-                    router.push(`/document/external/incoming/${res.data}`);
+                    router.push(`${PATH.DocumentExternalOutgoing}/${res.data}`);
                 })
                 .finally(() => setLoadingSave(false))
         }
         else if (formMode === FormMode.EDIT) {
-            externalDocumentRequest.updateIncomingDocument(id, formData)
+            externalDocumentRequest.updateOutgoingDocument(id, formData)
                 .then(() => {
                     toastClientSuccess("Văn bản đã được cập nhật", "Cập nhật văn bản đi thành công")
                     setFormMode(FormMode.VIEW);

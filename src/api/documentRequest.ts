@@ -1,12 +1,12 @@
 
 import { httpClient } from "@/lib/httpClient";
-import { DocType, DocumentFilter, DocumentNavigationOptions, ReviewerOptions } from "@/types/Document";
+import { DocType, DocumentFilter, DocumentLookup, ReviewerLookup } from "@/types/Document";
 import { PublishDocument } from "@/types/Dossier";
 import qs from "qs";
 
 const documentRequest = {
-    getNavigationOptions: (documentType?: DocType) => httpClient.get<DocumentNavigationOptions>(`documents/navigation-options${documentType?`?documentType=${documentType}`:''}`),
-    getReviewerOptions: () => httpClient.get<ReviewerOptions>(`documents/reviewer-options`),
+    getDocumentLookup: (documentType?: DocType) => httpClient.get<DocumentLookup>(`documents/document-lookup${documentType?`?documentType=${documentType}`:''}`),
+    getReviewerLookup: () => httpClient.get<ReviewerLookup>(`documents/reviewer-lookup`),
     initiateConfirmProcess: (documentId: string) => httpClient.patch(`documents/${documentId}/initiate-process`),
     getPublishDocuments: (filter?: DocumentFilter) => httpClient.get<PublishDocument[]>('documents/publish', { params: filter, paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" }) }),
 };

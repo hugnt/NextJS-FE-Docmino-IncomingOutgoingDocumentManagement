@@ -1,7 +1,7 @@
 import { PATH } from "@/constants/paths";
-import { KeyValue } from "./api";
 import { ReviewerType, SignType } from "./ConfirmProcess";
 import { DataFilter } from "./filter";
+import { Lookup } from "./lookup";
 
 export enum DocType {
   None = 0,
@@ -73,27 +73,28 @@ export type DocumentFilter = DataFilter & {
 };
 
 
-export type DocumentNavigationOptions = {
+export type DocumentLookup = {
   arrivalDates?: string[];
-  categories?: KeyValue<number, string>[];
-  fields?: KeyValue<number, string>[];
-  documentRegisters?: KeyValue<string, string>[];
-  documentStatus?: KeyValue<number, string>[];
-  organizations?: KeyValue<number, string>[];
-  securePriorities?: KeyValue<number, string>[];
-  urgentPriorities?: KeyValue<number, string>[];
+  categories?: Lookup<number>[];
+  fields?: Lookup<number>[];
+  documentRegisters?: Lookup<string>[];
+  documentStatus?: Lookup<number>[];
+  organizations?: Lookup<number>[];
+  departments?: Lookup<number>[];
+  securePriorities?: Lookup<number>[];
+  urgentPriorities?: Lookup<number>[];
 
-  reviewerTypes?: KeyValue<number, string>[];
-  processTypes?: KeyValue<number, string>[];
-  signTypes?: KeyValue<number, string>[];
-  processManagers?: KeyValue<string, string>[];
+  reviewerTypes?: Lookup<number>[];
+  processTypes?: Lookup<number>[];
+  signTypes?: Lookup<number>[];
+  processManagers?: Lookup<string>[];
 };
 
-export type ReviewerOptions = {
-  groups?: KeyValue<string, string>[];
-  departments?: KeyValue<number, string>[];
-  positions?: KeyValue<number, string>[];
-  users?: KeyValue<string, string>[];
+export type ReviewerLookup = {
+  groups?: Lookup<string>[];
+  departments?: Lookup<number>[];
+  positions?: Lookup<number>[];
+  users?: Lookup<string>[];
 };
 
 export function getDocumentStatusName(status: DocumentStatus): string {

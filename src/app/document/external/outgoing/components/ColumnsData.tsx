@@ -8,19 +8,12 @@ import Link from "next/link";
 
 export const ColumnsData: ColumnDef<ExternalDocument>[] = [
     {
-        id: "index",
-        header: "No.",
-        cell: ({ row }) => <div>{row.index + 1}</div>,
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
         accessorKey: 'name',
         header: ({ column }) => (
             <DataTableColumnHeader className={`${COLUMN_WIDTH.shortName}`} column={column} title='Tên văn bản' />
         ),
         cell: ({ row }) =>
-            <Link type="blank" href={getDocumentUrl(DocType.Incoming, row.original.id)}
+            <Link type="blank" href={getDocumentUrl(DocType.Outgoing, row.original.id)}
                 className="text-blue-600 hover:underline">
                 {row.getValue('name')}
             </Link>,
@@ -28,11 +21,11 @@ export const ColumnsData: ColumnDef<ExternalDocument>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: 'arrivalNumber',
+        accessorKey: 'codeNumber',
         header: ({ column }) => (
             <DataTableColumnHeader className={`${COLUMN_WIDTH.number}`} column={column} title='Số đi' />
         ),
-        cell: ({ row }) => <div>{row.getValue('arrivalNumber')}</div>,
+        cell: ({ row }) => <div>{row.getValue('codeNumber')}</div>,
         enableSorting: false,
         enableHiding: false,
     },

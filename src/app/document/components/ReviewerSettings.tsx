@@ -18,7 +18,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useDocumentContext } from "@/context/documentContext"
 import { dateToString, toastClientError } from "@/lib/utils"
 import { defaultProcessDetails, type ProcessDetail, ReviewerType, SignType } from "@/types/ConfirmProcess"
-import type { ReviewerOptions } from "@/types/Document"
+import type { ReviewerLookup } from "@/types/Document"
 import { CircleHelp } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -33,7 +33,7 @@ interface ReviewerSettingsProps {
 export default function ReviewerSettings({ open, onOpenChange, processDetail, onSave = () => { }, blockchainEnabled = false }: ReviewerSettingsProps) {
   const { reviewerTypes, signTypes } = useDocumentContext()
   const [loading, setLoading] = useState<boolean>(false)
-  const [data, setData] = useState<ReviewerOptions>()
+  const [data, setData] = useState<ReviewerLookup>()
 
   // Form state
   const [formState, setFormState] = useState<ProcessDetail>(defaultProcessDetails)
@@ -41,7 +41,7 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
   // Load reviewer options on component mount
   useEffect(() => {
     setLoading(true)
-    documentRequest.getReviewerOptions().then((res) => {
+    documentRequest.getReviewerLookup().then((res) => {
       setData(res.data)
     }).finally(() => {
       setLoading(false)
@@ -71,14 +71,14 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
 
   const handleSignTypeChange = (value: string) => {
     const selectedType = blockchainEnabled ? SignType.Blockchain : Number(value) as SignType
-    const selectedOption = signTypes?.find((x) => x.key === selectedType)
-    const actionName = selectedOption?.value || ""
+    const selectedOption = signTypes?.find((x) => x.id === selectedType)
+    const actionName = selectedOption?.name || ""
     setFormState({ ...formState, signType: selectedType, actionName })
   }
 
   const handleReviewerChange = (value: string) => {
-    const selectedOption = getReviewerOptions().find((x) => x.key === value)
-    setFormState({ ...formState, reviewerId: value, reviewerName: selectedOption?.value || "" })
+    const selectedOption = getReviewerLookup().find((x) => x.id === value)
+    setFormState({ ...formState, reviewerId: value, reviewerName: selectedOption?.name || "" })
   }
 
   const handleSaveChanges = () => {
@@ -117,7 +117,7 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
   }
 
   // Get the appropriate options list based on reviewer type
-  const getReviewerOptions = () => {
+  const getReviewerLookup = () => {
     switch (formState.reviewerType) {
       case ReviewerType.User:
         return data?.users || []
@@ -183,8 +183,8 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
                 </SelectTrigger>
                 <SelectContent>
                   {reviewerTypes?.map((x) => (
-                    <SelectItem key={x.key} value={String(x.key)}>
-                      {x.value}
+                    <SelectItem key={x.id} value={String(x.id)}>
+                      {x.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -200,9 +200,9 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
                   <SelectValue placeholder={getPlaceholderText()} />
                 </SelectTrigger>
                 <SelectContent>
-                  {getReviewerOptions().map((x) => (
-                    <SelectItem key={x.key} value={String(x.key)}>
-                      {x.value}
+                  {getReviewerLookup().map((x) => (
+                    <SelectItem key={x.id} value={String(x.id)}>
+                      {x.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -233,9 +233,9 @@ export default function ReviewerSettings({ open, onOpenChange, processDetail, on
                 </SelectTrigger>
                 <SelectContent>
                   {blockchainEnabled ? (<SelectItem key={SignType.Blockchain} value={String(SignType.Blockchain)}>Giao dịch blockchain</SelectItem>) :
-                    signTypes?.filter(x=>x.key!=SignType.Blockchain).map((x) => (
-                      <SelectItem key={x.key} value={String(x.key)}>
-                        {x.value}
+                    signTypes?.filter(x=>x.id!=SignType.Blockchain).map((x) => (
+                      <SelectItem key={x.id} value={String(x.id)}>
+                        {x.name}
                       </SelectItem>
                     ))
                   }

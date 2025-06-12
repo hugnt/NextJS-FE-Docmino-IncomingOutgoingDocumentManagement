@@ -8,6 +8,7 @@ export type InternalDocumentFilter = DataFilter & {
   documentType: DocType;
   startDate?: string;
   endDate?: string;
+  departments?: number[];
   categories?: number[];
   fields?: number[];
   documentStatus?: DocumentStatus[];
@@ -24,7 +25,10 @@ export type InternalDocument = {
   fieldName: string;
   issuedDate: string;
   description: string;
-  organizationName: string;
+  departmentName: string;
+  arrivalNumber: string;
+  arrivalDate: string;
+  codeNumber: string;
 };
 
 
@@ -36,12 +40,16 @@ export type InternalDocumentDetail = {
   fieldId: number;
   codeNotation: string;
   issuedDate: string;
-  organizationId: number;
+  departmentId: number;
   subject: string;
   pageAmount: number;
   description: string;
   securePriority: SecurePriority;
   urgentPriority: UrgentPriority;
+  arrivalNumber: string;
+  arrivalDate: string;
+  codeNumber: string;
+  toPlaces: string;
   dueDate: string;
   issuedAmount: number;
   documentStatus: DocumentStatus;
@@ -58,12 +66,16 @@ export const defaultInternalDocumentDetail: InternalDocumentDetail = {
   fieldId: 0,
   codeNotation: "",
   issuedDate: "",
-  organizationId: 0,
+  departmentId: 0,
   subject: "",
   pageAmount: 0,
   description: "",
   securePriority: SecurePriority.Normal,
   urgentPriority: UrgentPriority.Normal,
+  arrivalNumber: "",
+  arrivalDate: "",
+  codeNumber: "",
+  toPlaces: "",
   dueDate: "",
   issuedAmount: 0,
   documentStatus: DocumentStatus.Draff,

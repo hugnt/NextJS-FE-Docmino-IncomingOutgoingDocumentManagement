@@ -8,19 +8,12 @@ import Link from "next/link";
 
 export const ColumnsData: ColumnDef<InternalDocument>[] = [
     {
-        id: "index",
-        header: "No.",
-        cell: ({ row }) => <div>{row.index + 1}</div>,
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
         accessorKey: 'name',
         header: ({ column }) => (
             <DataTableColumnHeader className={`${COLUMN_WIDTH.shortName}`} column={column} title='Tên văn bản' />
         ),
         cell: ({ row }) =>
-            <Link type="blank" href={getDocumentUrl(DocType.Incoming, row.original.id)}
+            <Link type="blank" href={getDocumentUrl(DocType.InternalIncoming, row.original.id)}
                 className="text-blue-600 hover:underline">
                 {row.getValue('name')}
             </Link>,
@@ -29,11 +22,11 @@ export const ColumnsData: ColumnDef<InternalDocument>[] = [
     },
 
     {
-        accessorKey: 'categoryName',
+        accessorKey: 'arrivalNumber',
         header: ({ column }) => (
-            <DataTableColumnHeader className={`${COLUMN_WIDTH.shortText}`} column={column} title='Loại văn bản' />
+            <DataTableColumnHeader className={`${COLUMN_WIDTH.shortText}`} column={column} title='Số đến' />
         ),
-        cell: ({ row }) => <div>{row.getValue('categoryName')}</div>,
+        cell: ({ row }) => <div>{row.getValue('arrivalNumber')}</div>,
         enableSorting: false,
         enableHiding: false,
     },
@@ -52,6 +45,15 @@ export const ColumnsData: ColumnDef<InternalDocument>[] = [
             <DataTableColumnHeader className={`${COLUMN_WIDTH.date}`} column={column} title='Ngày văn bản' />
         ),
         cell: ({ row }) => <div>{formatDate(row.getValue('issuedDate'))}</div>,
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: 'departmentName',
+        header: ({ column }) => (
+            <DataTableColumnHeader className={`${COLUMN_WIDTH.longName}`} column={column} title='Phòng ban đến' />
+        ),
+        cell: ({ row }) => <div>{row.getValue('departmentName')}</div>,
         enableSorting: false,
         enableHiding: false,
     },

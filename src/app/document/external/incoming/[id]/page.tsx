@@ -33,6 +33,7 @@ import FileAttachment from "./components/FileAttachment"
 import GeneralInformationForm from "./components/GeneralInformationForm"
 import { useAuthContext } from "@/context/authContext"
 import { createApprovalFormData } from "@/api/mappings/confirmProcessMapping"
+import { PATH } from "@/constants/paths"
 
 
 export default function ExternalDocumentDetailPage() {
@@ -130,7 +131,7 @@ export default function ExternalDocumentDetailPage() {
                 .then((res) => {
                     toastClientSuccess("Văn bản thêm đã được thêm", "Văn bản đã được thêm mới")
                     setFormMode(FormMode.VIEW)
-                    router.push(`/document/external/incoming/${res.data}`);
+                    router.push(`${PATH.DocumentExternalIncoming}/${res.data}`);
                 })
                 .finally(() => setLoadingSave(false))
         }

@@ -47,7 +47,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent>
                   {
                     documentRegisters?.map(x => {
-                      return <SelectItem key={x.key} value={x.key}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={x.id}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -74,12 +74,12 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
         <div className="grid grid-cols-2 gap-3">
           <FormField
             control={form.control}
-            name='arrivalNumber'
+            name='codeNumber'
             render={({ field }) => (
               <FormItem className='space-y-1'>
                 <FormLabel>Số đi</FormLabel>
                 <FormControl>
-                  <Input readOnly={readOnly} {...field} placeholder='Nhập số đến' />
+                  <Input readOnly={readOnly} {...field} placeholder='Nhập số đi' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,7 +139,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent >
                   {
                     categories?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -168,7 +168,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent >
                   {
                     fields?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -195,7 +195,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                 <SelectContent >
                   {
                     organizations?.map(x => {
-                      return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                      return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                     })
                   }
                 </SelectContent>
@@ -239,7 +239,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                   <SelectContent >
                     {
                       securePriorities?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                        return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                       })
                     }
                   </SelectContent>
@@ -266,7 +266,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                   <SelectContent >
                     {
                       urgentPriorities?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                        return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                       })
                     }
                   </SelectContent>
@@ -293,7 +293,7 @@ export default function GeneralInformationForm(props: GeneralInformationFormProp
                   <SelectContent >
                     {
                       documentStatus?.map(x => {
-                        return <SelectItem key={x.key} value={String(x.key)}>{x.value}</SelectItem>
+                        return <SelectItem key={x.id} value={String(x.id)}>{x.name}</SelectItem>
                       })
                     }
                   </SelectContent>
