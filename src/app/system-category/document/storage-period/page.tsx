@@ -124,7 +124,7 @@ export default function StoragePeriodList() {
 
     return (
         <div>
-            <PageHeader title="Kỳ lưu trữ" subtitle="Quản lý kỳ lưu trữ">
+            <PageHeader title="Thời hạn lưu trữ" subtitle="Quản lý thời hạn lưu trữ">
                 <Button onClick={() => handleFormAction(FormMode.ADD)} className='space-x-1'>
                     <span>Thêm mới</span><Plus size={18} />
                 </Button>
@@ -157,7 +157,7 @@ export default function StoragePeriodList() {
                 title={`Delete this storage period: ${openDeleteDialog.name} ?`}
                 desc={
                     <>
-                        Bạn sắp xóa kỳ lưu trữ với tên{' '}
+                        Bạn sắp xóa thời hạn lưu trữ với tên{' '}
                         <strong>{openDeleteDialog.name}</strong>. <br />
                         Hành động này không thể hoàn tác.
                     </>

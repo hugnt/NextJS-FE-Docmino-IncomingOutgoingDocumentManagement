@@ -62,7 +62,7 @@ export default function FormDetails(props: FormDetailProps) {
     }, [data])
 
     useEffect(() => {
-        if (watchedRoleId === 0 || watchedRoleId === 1) {
+        if (watchedRoleId === 1 || watchedRoleId === 2) {
             form.setValue("createIncomingDocumentRight", true)
             form.setValue("createOutgoingDocumentRight", true)
             form.setValue("createInternalDocumentRight", true)

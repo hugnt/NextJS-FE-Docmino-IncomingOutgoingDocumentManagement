@@ -39,6 +39,11 @@ export type UpdatePasswordRequest = {
     newPassword: string;
 };
 
+export type UserLookup = {
+    id: string;
+    name: string;
+    departmentName?: string | null;
+}
 
 export type User = {
     id: string;

@@ -11,6 +11,7 @@ export type Position = {
     code: string;
     description: string;
     departmentId: number;
+    departmentName: string;
 };
 
 export const defaultPosition: Position = {
@@ -18,5 +19,6 @@ export const defaultPosition: Position = {
     name: "",
     code: "",
     description: "",
-    departmentId: 0
+    departmentId: 0,
+    departmentName: ""
 };

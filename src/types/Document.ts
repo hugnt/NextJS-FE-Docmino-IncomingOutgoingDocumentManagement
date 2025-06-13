@@ -119,10 +119,11 @@ export function getDocTypeName(documentType: DocType): string {
     case DocType.Outgoing:
       return "Văn bản đi";
     case DocType.InternalIncoming:
-      return "Văn bản nội bộ đi";
-    case DocType.InternalOutgoing:
       return "Văn bản nội bộ đến";
+    case DocType.InternalOutgoing:
+      return "Văn bản nội bộ đi";
     case DocType.None:
+      return "Nháp";
     default:
       return "Không xác định";
   }
