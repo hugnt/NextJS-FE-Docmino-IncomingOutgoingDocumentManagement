@@ -112,8 +112,8 @@ Make sure to configure environment variables in your hosting provider (e.g., **V
 Found a bug? Want to suggest a feature?  
 👉 Please open an [issue on GitHub](https://github.com/hugnt/NextJS-FE-Docmino-IncomingOutgoingDocumentManagement/issues).
 
-📧 Email: [support@docmino.vn](mailto:support@docmino.vn)  
-📘 Facebook: [@docmino.devteam](https://facebook.com/docmino.devteam)
+📧 Email: [thanh.hung.st302@gmail.com](mailto:thanh.hung.st302@gmail.com)  
+📘 Facebook: [@hugnt.vn](https://facebook.com/hugnt.vn)
 
 ---
 
