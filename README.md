@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Docmino Frontend – Next.js Client
 
-## Getting Started
+This is the **frontend application** for **Docmino**, a comprehensive electronic document management platform for managing **incoming, outgoing, and internal documents**, developed in compliance with Vietnam’s [Decree No. 30/2020/NĐ‑CP](https://thuvienphapluat.vn/van-ban/bo-may-hanh-chinh/Nghi-dinh-30-2020-ND-CP-cong-tac-van-thu-431077.aspx).
 
-First, run the development server:
+---
+
+## 🌐 Project Overview
+
+The frontend is built using **Next.js**, providing a modern, responsive, and intuitive interface that powers the key Docmino modules:
+
+- Secure authentication for admins, clerical assistants, and approvers  
+- Dashboards for managing all types of documents  
+- Configurable approval workflows with signature placement  
+- Archival navigation and user profile management
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & User Roles
+- Secure login/logout with JWT token handling  
+- Role-based UI behavior for **Admin**, **Assistant**, and **Approver**  
+
+### 📄 Document Management
+- Full CRUD operations for incoming, outgoing, internal, and archived documents  
+- Flexible approval flows with configurable approvers and digital signature placement  
+- File upload, preview, and attachment management  
+
+### 📊 Dashboards & Analytics
+- Real-time reporting with charts and indicators  
+- Monthly summaries, processing status, and document counts by type  
+
+### 🗂 Archival Navigation
+- Hierarchical structure: **Warehouse → Shelf → Box → Dossier**  
+- Filters by retention period, creation date, and metadata  
+- Fast search and navigation for large-scale storage systems  
+
+### ⚙️ Settings & Configuration
+- Manage document types, issuing authorities, fields  
+- Customize approval steps and signature coordinates  
+- User profile preferences and system-level settings  
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js (React)  
+- **Styling**: Tailwind CSS  
+- **API**: Docmino Web API (RESTful)  
+- **State Management**: React Context + React Query  
+- **Media Handling**: Cloudinary for file upload & preview  
+- **Notifications**: `react-hot-toast`  
+
+---
+
+## 💻 Getting Started
+
+### ⬇️ Clone & Install
+
+```bash
+git clone https://github.com/hugnt/NextJS-FE-Docmino-IncomingOutgoingDocumentManagement.git
+cd NextJS-FE-Docmino-IncomingOutgoingDocumentManagement
+npm install
+```
+
+### ⚙️ Configuration
+
+Create a `.env.local` file and define the following environment variables:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://your-docmino-api-domain
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+```
+
+### ▶️ Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Access the app at: [http://localhost:3000](http://localhost:3000)  
+Hot reload is enabled for a smooth dev experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧪 Test Account
 
-## Learn More
+Use the following demo credentials to explore all features:
 
-To learn more about Next.js, take a look at the following resources:
+- **Username**: `admin`  
+- **Password**: `Admin@123`  
+- **Role**: Full-access administrator
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment
 
-## Deploy on Vercel
+To build and run in production:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Make sure to configure environment variables in your hosting provider (e.g., **Vercel**, **Netlify**, **Render**).
+
+---
+
+## 🤝 Support & Feedback
+
+Found a bug? Want to suggest a feature?  
+👉 Please open an [issue on GitHub](https://github.com/hugnt/NextJS-FE-Docmino-IncomingOutgoingDocumentManagement/issues).
+
+📧 Email: [support@docmino.vn](mailto:support@docmino.vn)  
+📘 Facebook: [@docmino.devteam](https://facebook.com/docmino.devteam)
+
+---
+
+© 2025 **Docmino**

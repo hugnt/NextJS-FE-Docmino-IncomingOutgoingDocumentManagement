@@ -37,12 +37,14 @@ import {
     Upload,
     User,
     UserCheck,
+    Users,
     XCircle,
 } from "lucide-react"
 import Image from "next/image"
 import { useAuthContext } from "@/context/authContext"
 import userRequest from "@/api/userRequest"
 import { toastClientSuccess } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
 export default function ProfilePage() {
     const { user, setUser } = useAuthContext();
@@ -199,6 +201,25 @@ export default function ProfilePage() {
                                         <Building className="h-4 w-4 text-muted-foreground" />
                                         <span className="text-sm">{user.departmentName}</span>
                                     </div>
+                                    {user.groups && user.groups.length > 0 && (
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <Users className="h-4 w-4 text-muted-foreground" />
+                                                <span className="text-sm font-medium">Nhóm ({user.groups.length})</span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1 ml-6">
+                                                {user.groups.map((group) => (
+                                                    <Badge
+                                                        key={group}
+                                                        variant="outline"
+                                                        className="text-xs px-2 py-1 bg-blue-100 text-blue-800 border-blue-200"
+                                                    >
+                                                        {group}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <Separator className="my-4" />

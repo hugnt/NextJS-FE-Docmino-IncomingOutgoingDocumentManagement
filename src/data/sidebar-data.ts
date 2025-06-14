@@ -99,7 +99,7 @@ export const SidebarData: SidebarDataType = [
   {
     group: "Hệ thống - Quản lý các danh mục",
     isActive: true,
-    roles: [Role.Admin, Role.ClericalAssistant],
+    roles: AllRoles,
     items: [
       {
         title: "Danh mục hồ sơ - vb",
@@ -138,27 +138,27 @@ export const SidebarData: SidebarDataType = [
         title: "Danh mục nơi lưu trữ",
         url: PATH.Dashboard,
         icon: FolderArchive,
-        roles: [Role.Admin, Role.ClericalAssistant],
+        roles: AllRoles,
         items: [
           {
             title: "Danh mục hồ sơ",
             url: PATH.SystemCategoryStorageDossier,
-            roles: [Role.Admin, Role.ClericalAssistant],
+            roles: AllRoles,
           },
           {
             title: "Danh mục kho lưu trữ",
             url: PATH.SystemCategoryStorageInventory,
-            roles: [Role.Admin, Role.ClericalAssistant],
+            roles: AllRoles,
           },
           {
             title: "Danh mục kệ lưu trữ",
             url: PATH.SystemCategoryStorageSheft,
-            roles: [Role.Admin, Role.ClericalAssistant],
+            roles: AllRoles,
           },
           {
             title: "Danh mục hộp lưu trữ",
             url: PATH.SystemCategoryStorageBox,
-            roles: [Role.Admin, Role.ClericalAssistant],
+            roles: AllRoles,
           },
         ],
       },

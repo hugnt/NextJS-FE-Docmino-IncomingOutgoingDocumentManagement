@@ -65,6 +65,8 @@ export type User = {
     processManagerRight: boolean;
     storeDocumentRight: boolean;
     manageCategories: boolean;
+
+    groups?: string[];
 };
 
 export type UserDetail = {

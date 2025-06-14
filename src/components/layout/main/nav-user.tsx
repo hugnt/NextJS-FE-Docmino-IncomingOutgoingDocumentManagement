@@ -40,7 +40,7 @@ export function NavUser({ user }: { user: User }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-blue-50 data-[state=open]:text-blue-700 bg-white  shadow-sm hover:bg-blue-50"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarFallback className="rounded-lg">{user && getInitials(user.fullname)}</AvatarFallback>

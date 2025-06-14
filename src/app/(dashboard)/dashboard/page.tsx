@@ -66,7 +66,7 @@ export default function DashboardPage() {
     <div className="flex min-h-screen w-full flex-col bg-gray-50">
       <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white px-4 md:px-6">
         <div className="flex items-center gap-2">
-          <FileText className="h-6 w-6 text-teal-600" />
+          <FileText className="h-6 w-6 text-blue-600" />
           <h1 className="text-lg font-semibold">Thống kê hôm nay</h1>
         </div>
         <div className="ml-auto flex items-center gap-4">
