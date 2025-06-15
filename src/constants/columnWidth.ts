@@ -2,7 +2,7 @@
 export const COLUMN_WIDTH = {
     index: "max-w-20",
     name: "max-w-60 truncate",
-    shortName: "max-w-40",
+    shortName: "max-w-40 truncate",
     longName: "max-w-80 truncate",
     description: "max-w-80 truncate",
     date: "max-w-25",

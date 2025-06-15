@@ -72,6 +72,12 @@ export type DocumentFilter = DataFilter & {
   endDate?: string;
 };
 
+export type PublishDocumentFilter = DataFilter & {
+  documentType?: DocType | null;
+  codeNotation?: string;
+  storageId?: string | null;
+};
+
 
 export type DocumentLookup = {
   arrivalDates?: string[];

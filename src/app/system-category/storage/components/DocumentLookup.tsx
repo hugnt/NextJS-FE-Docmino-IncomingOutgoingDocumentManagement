@@ -10,7 +10,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { COLUMN_WIDTH } from '@/constants/columnWidth'
 import { cn, formatDate } from '@/lib/utils'
-import { DocumentFilter, getDocTypeName } from '@/types/Document'
+import { getDocTypeName, PublishDocumentFilter } from '@/types/Document'
 import { PublishDocument } from '@/types/Dossier'
 import { ColumnDef } from '@tanstack/react-table'
 import { BookmarkPlus } from 'lucide-react'
@@ -18,15 +18,16 @@ import { useEffect, useState } from 'react'
 
 interface DocumentLookupProps {
     open: boolean;
+    storageId?: string | null;
     onOpenChange: (open: boolean) => void;
     existedDocuments: PublishDocument[];
     onDocumentsSelected?: (documents: PublishDocument[]) => void;
 }
 
 export default function DocumentLookup(props: DocumentLookupProps) {
-    const { open, onOpenChange, onDocumentsSelected, existedDocuments } = props;
+    const { open, onOpenChange, onDocumentsSelected, existedDocuments, storageId = null } = props;
     const [data, setData] = useState<PublishDocument[]>([]);
-    const [filter, setFilter] = useState<DocumentFilter>({ pageNumber: 1, pageSize: 10 });
+    const [filter, setFilter] = useState<PublishDocumentFilter>({ pageNumber: 1, pageSize: 10, storageId });
     const [totalRecords, setTotalRecords] = useState<number>(0);
     const [selectedDocuments, setSelectedDocuments] = useState<PublishDocument[]>([]);
     const [tableLoading, setTableLoading] = useState<boolean>(false);
@@ -57,6 +58,10 @@ export default function DocumentLookup(props: DocumentLookupProps) {
         },
         ...ColumnsData
     ];
+
+    useEffect(() => {
+        setFilter(prev => ({ ...prev, storageId }));
+    }, [storageId])
 
     useEffect(() => {
         setSelectedDocuments(existedDocuments);
@@ -160,10 +165,12 @@ const ColumnsData: ColumnDef<PublishDocument>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => (
-            <DataTableColumnHeader className={`${COLUMN_WIDTH.shortName}`} column={column} title="Tên văn bản" />
+            <DataTableColumnHeader 
+                    className={`${COLUMN_WIDTH.shortName}`} 
+                    column={column} title="Tên văn bản" />
         ),
         cell: ({ row }) => (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 max-w-[250px] truncate">
                 <span className="font-medium text-gray-900 truncate">{row.getValue("name")}</span>
             </div>
         ),

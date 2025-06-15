@@ -125,13 +125,13 @@ export default function DirectoryFolder(props: DirectoryFolderProps) {
                     <CardContent onClick={() => handleDetailClick(item)}
                         className="h-24 flex flex-col justify-between">
                         <div className="grid grid-rows-3 mb-2">
-                            <CardTitle className="text-base line-clamp-2 group-hover:text-teal-700 transition-colors">
+                            <CardTitle className="text-base line-clamp-2 group-hover:text-teal-700 transition-colors truncate">
                                 {item.name}
                             </CardTitle>
                             <CardDescription className="line-clamp-2 truncate">{item.description}</CardDescription>
                             {item.parentDirectoryId && <div className="flex items-center gap-2">
                                 {getParentDirectoryIcon(item.type)}
-                                <span className="text-xs text-muted-foreground">{item.parentDirectoryName}</span>
+                                <span className="text-xs text-muted-foreground truncate">{item.parentDirectoryName}</span>
                             </div>}
                         </div>
                         <div className="flex justify-between text-xs text-muted-foreground pt-2 border-t border-gray-100 bottom-0">

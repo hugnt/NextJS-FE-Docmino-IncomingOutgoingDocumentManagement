@@ -128,7 +128,7 @@ export default function DossierGrid(props: DossierGridProps) {
                             {getDossierStatusBadge(item.status)}
                         </div>
                         <div className="grid grid-rows-5 mb-2">
-                            <CardTitle className="truncate text-base line-clamp-2 group-hover:text-teal-700 transition-colors">
+                            <CardTitle className="text-base line-clamp-2 group-hover:text-teal-700 transition-colors truncate">
                                 {item.name}
                             </CardTitle>
                             <CardDescription className="line-clamp-2 truncate">{item.description}</CardDescription>

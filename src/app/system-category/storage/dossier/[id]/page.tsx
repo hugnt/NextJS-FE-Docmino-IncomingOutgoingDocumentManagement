@@ -252,10 +252,11 @@ export default function DossierDetailPage() {
                 onSubmit={handleFormSubmit}
             />
 
-            <DocumentLookup 
+            <DocumentLookup
+                storageId={dossier.id}
                 open={lookupOpen}
                 onOpenChange={setLookupOpen}
-                existedDocuments = {dossier.documents || []}
+                existedDocuments={dossier.documents || []}
                 onDocumentsSelected={handleUpdateDocument}
             />
         </div>
